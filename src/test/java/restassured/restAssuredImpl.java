@@ -1,29 +1,35 @@
 package restassured;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 public class restAssuredImpl {
-    String token;
+    String token, objectId;
 
     @BeforeSuite
-    public void setup() {
+    public void setup() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
 
         String email = "garinyr@gmail.com";
         String password = "@dmin123";
 
-        String requestBody = String.format("""
-                {
-                    "email": "%s",
-                    "password": "%s"
-                }
-                """, email, password);
+        Map<String, Object> request = new HashMap<>();
+        request.put("email", email);
+        request.put("password", password);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(request);
 
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -35,24 +41,24 @@ public class restAssuredImpl {
     }
 
     @Test
-    public void testRegister() {
+    public void testRegister() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
 
-        String email = "garinyr3@gmail.com";
+        String email = "garinyr7@gmail.com";
         String full_name = "Garin YR";
         String password = "@dmin123";
         String department = "Technology";
         String phone_number = "08121122334";
 
-        String requestBody = String.format("""
-                {
-                    "email": "%s",
-                    "full_name": "%s",
-                    "password": "%s",
-                    "department": "%s",
-                    "phone_number": "%s"
-                }
-                """, email, full_name, password, department, phone_number);
+        Map<String, Object> request = new HashMap<>();
+        request.put("email", email);
+        request.put("full_name", full_name);
+        request.put("password", password);
+        request.put("department", department);
+        request.put("phone_number", phone_number);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(request);
 
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -70,18 +76,18 @@ public class restAssuredImpl {
     }
 
     @Test
-    public void testLogin() {
+    public void testLogin() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
 
         String email = "garinyr@gmail.com";
         String password = "@dmin123";
 
-        String requestBody = String.format("""
-                {
-                    "email": "%s",
-                    "password": "%s"
-                }
-                """, email, password);
+        Map<String, Object> request = new HashMap<>();
+        request.put("email", email);
+        request.put("password", password);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(request);
 
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -110,6 +116,57 @@ public class restAssuredImpl {
     }
 
     @Test
+    public void testAddObject() throws JsonProcessingException {
+        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+
+        String name = "Apple MacBook Pro 16";
+        String year = "2019";
+        String price = "1849.99";
+        String cpu_model = "Intel Core i9";
+        String hard_disk_size = "1 TB";
+        String capacity = "2 cpu";
+        String screen_size = "14 Inch";
+        String color = "red";
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("year", year);
+        data.put("price", price);
+        data.put("cpu_model", cpu_model);
+        data.put("hard_disk_size", hard_disk_size);
+        data.put("capacity", capacity);
+        data.put("screen_size", screen_size);
+        data.put("color", color);
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("name", name);
+        requestMap.put("data", data);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(requestMap);
+
+        Response response = RestAssured.given()
+                .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .body(requestBody)
+                .when()
+                .post("/objects");
+        System.out.println("Response: " + response.asString());
+
+        assert response.statusCode() == 200 : "Expected status code 200 but got " + response.statusCode();
+        assert response.jsonPath().getString("[0].name").equals(name) : "Name does not match";
+        assert response.jsonPath().getString("[0].data.year").equals(year) : "Year does not match";
+        assert response.jsonPath().getString("[0].data.price").equals(price) : "Price does not match";
+        assert response.jsonPath().getString("[0].data.cpu_model").equals(cpu_model) : "CPU model does not match";
+        assert response.jsonPath().getString("[0].data.hard_disk_size").equals(hard_disk_size)
+                : "Hard disk size does not match";
+        assert response.jsonPath().getString("[0].data.capacity").equals(capacity) : "Capacity does not match";
+        assert response.jsonPath().getString("[0].data.screen_size").equals(screen_size) : "Screen size does not match";
+        assert response.jsonPath().getString("[0].data.color").equals(color) : "Color does not match";
+
+        objectId = response.jsonPath().getString("[0].id");
+    }
+
+    @Test
     public void testGetListAllObjects() {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
 
@@ -126,7 +183,6 @@ public class restAssuredImpl {
     @Test
     public void testGetObjectById() {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
-        String objectId = "94";
         String objectId2 = "95";
 
         Response response = RestAssured.given()
@@ -161,59 +217,10 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("id").equals(objectId) : "Object ID does not match";
     }
 
-    @Test
-    public void testAddObject() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
-
-        String name = "Apple MacBook Pro 16";
-        String year = "2019";
-        String price = "1849.99";
-        String cpu_model = "Intel Core i9";
-        String hard_disk_size = "1 TB";
-        String capacity = "2 cpu";
-        String screen_size = "14 Inch";
-        String color = "red";
-
-        String requestBody = String.format("""
-                {
-                    "name": "%s",
-                    "data": {
-                        "year": %s,
-                        "price": %s,
-                        "cpu_model": "%s",
-                        "hard_disk_size": "%s",
-                        "capacity": "%s",
-                        "screen_size": "%s",
-                        "color": "%s"
-                    }
-                }
-                """, name, year, price, cpu_model, hard_disk_size, capacity, screen_size, color);
-
-        Response response = RestAssured.given()
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + token)
-                .body(requestBody)
-                .when()
-                .post("/objects");
-        System.out.println("Response: " + response.asString());
-
-        assert response.statusCode() == 200 : "Expected status code 200 but got " + response.statusCode();
-        assert response.jsonPath().getString("[0].name").equals(name) : "Name does not match";
-        assert response.jsonPath().getString("[0].data.year").equals(year) : "Year does not match";
-        assert response.jsonPath().getString("[0].data.price").equals(price) : "Price does not match";
-        assert response.jsonPath().getString("[0].data.cpu_model").equals(cpu_model) : "CPU model does not match";
-        assert response.jsonPath().getString("[0].data.hard_disk_size").equals(hard_disk_size)
-                : "Hard disk size does not match";
-        assert response.jsonPath().getString("[0].data.capacity").equals(capacity) : "Capacity does not match";
-        assert response.jsonPath().getString("[0].data.screen_size").equals(screen_size) : "Screen size does not match";
-        assert response.jsonPath().getString("[0].data.color").equals(color) : "Color does not match";
-    }
-
-    @Test
-    public void testUpdateObject() {
+    @Test(dependsOnMethods = "testAddObject")
+    public void testUpdateObject() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/37777abe-a5ef-4570-a383-c99b5f5f7906/api/";
 
-        String objectId = "94";
         String name = "Apple MacBook Pro 17";
         String year = "2019";
         String price = "1849.99";
@@ -223,20 +230,21 @@ public class restAssuredImpl {
         String screen_size = "14 Inch";
         String color = "red";
 
-        String requestBody = String.format("""
-                {
-                    "name": "%s",
-                    "data": {
-                        "year": %s,
-                        "price": %s,
-                        "cpu_model": "%s",
-                        "hard_disk_size": "%s",
-                        "capacity": "%s",
-                        "screen_size": "%s",
-                        "color": "%s"
-                    }
-                }
-                """, name, year, price, cpu_model, hard_disk_size, capacity, screen_size, color);
+        Map<String, Object> data = new HashMap<>();
+        data.put("year", year);
+        data.put("price", price);
+        data.put("cpu_model", cpu_model);
+        data.put("hard_disk_size", hard_disk_size);
+        data.put("capacity", capacity);
+        data.put("screen_size", screen_size);
+        data.put("color", color);
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("name", name);
+        requestMap.put("data", data);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(requestMap);
 
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -258,22 +266,22 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("[0].data.color").equals(color) : "Color does not match";
     }
 
-    @Test
-    public void testPartiallyUpdateObject() {
+    @Test(dependsOnMethods = "testAddObject")
+    public void testPartiallyUpdateObject() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/39a0f904-b0f2-4428-80a3-391cea5d7d04/api/";
 
-        String objectId = "94";
         String name = "Apple MacBook Pro X 22";
         String year = "2022";
 
-        String requestBody = String.format("""
-                {
-                    "name": "%s",
-                    "year": %s
-                }
-                """, name, year);
-        System.out.println("Request Body: " + requestBody);
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("name", name);
+        requestMap.put("data", year);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(requestMap);
         
+        System.out.println("Request Body: " + requestBody);
+
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + token)
@@ -287,11 +295,10 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("data.year").equals(year) : "Year does not match";
     }
 
-    @Test
+    @Test(dependsOnMethods = "testAddObject")
     public void testDeleteObject() {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/d79a30ed-1066-48b6-83f5-556120afc46f/api/";
 
-        String objectId = "58";
         String expectedMsg = "Object with id = " + objectId + ", has been deleted.";
 
         Response response = RestAssured.given()
