@@ -3,8 +3,6 @@ package restassured;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -44,7 +42,9 @@ public class restAssuredImpl {
     public void testRegister() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
 
-        String email = "garinyr7@gmail.com";
+        // create random number for email
+        String randomNumber = String.valueOf((int) (Math.random() * 1000));
+        String email = "garinyr" + randomNumber + "@gmail.com";
         String full_name = "Garin YR";
         String password = "@dmin123";
         String department = "Technology";
@@ -266,7 +266,7 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("[0].data.color").equals(color) : "Color does not match";
     }
 
-    @Test(dependsOnMethods = "testAddObject")
+    @Test(dependsOnMethods = "testUpdateObject")
     public void testPartiallyUpdateObject() throws JsonProcessingException {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/39a0f904-b0f2-4428-80a3-391cea5d7d04/api/";
 
@@ -275,11 +275,11 @@ public class restAssuredImpl {
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("name", name);
-        requestMap.put("data", year);
+        requestMap.put("year", year);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper.writeValueAsString(requestMap);
-        
+
         System.out.println("Request Body: " + requestBody);
 
         Response response = RestAssured.given()
@@ -295,7 +295,7 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("data.year").equals(year) : "Year does not match";
     }
 
-    @Test(dependsOnMethods = "testAddObject")
+    @Test(dependsOnMethods = "testPartiallyUpdateObject")
     public void testDeleteObject() {
         RestAssured.baseURI = "https://whitesmokehouse.com/webhook/d79a30ed-1066-48b6-83f5-556120afc46f/api/";
 
