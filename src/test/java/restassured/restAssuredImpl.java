@@ -125,7 +125,7 @@ public class restAssuredImpl {
 
     @Test
     public void testGetObjectById() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/7f40e27b-d3bf-4e21-bca1-fd9514a3e6ae/api";
+        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
         String objectId = "94";
         String objectId2 = "95";
 
@@ -135,7 +135,7 @@ public class restAssuredImpl {
                 .queryParam("id", objectId)
                 .queryParam("id", objectId2)
                 .when()
-                .get("/objects/:id");
+                .get("/objectslistId");
         System.out.println("Response: " + response.asString());
 
         assert response.statusCode() == 200 : "Expected status code 200 but got " + response.statusCode();
