@@ -5,15 +5,15 @@ public class RequestAddObjectData {
     private String price;
     private String cpu_model;
     private String hard_disk_size;
-    private String capacity;
-    private String screen_size;
+    private int capacity;
+    private int screen_size;
     private String color;
 
     public RequestAddObjectData() {
     }
 
     public RequestAddObjectData(String year, String price, String cpu_model, String hard_disk_size,
-            String capacity, String screen_size, String color) {
+            int capacity, int screen_size, String color) {
         this.year = year;
         this.price = price;
         this.cpu_model = cpu_model;
@@ -39,11 +39,11 @@ public class RequestAddObjectData {
         return hard_disk_size;
     }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
-    public String getScreen_size() {
+    public int getScreen_size() {
         return screen_size;
     }
 
@@ -67,11 +67,11 @@ public class RequestAddObjectData {
         this.hard_disk_size = hard_disk_size;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public void setScreen_size(String screen_size) {
+    public void setScreen_size(int screen_size) {
         this.screen_size = screen_size;
     }
 

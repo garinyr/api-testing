@@ -81,7 +81,7 @@ public class RestAssuredE2ETest {
       RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
 
       // create random number for email
-      String randomNumber = String.valueOf((int) (Math.random() * 1000));
+      String randomNumber = String.valueOf((int) (Math.random() * 10000));
       String email = "garinyr" + randomNumber + "@gmail.com";
       String full_name = "Garin YR";
       String password = "@dmin123";
@@ -134,8 +134,8 @@ public class RestAssuredE2ETest {
       String price = "1849";
       String cpu_model = "Intel Core i9";
       String hard_disk_size = "1";
-      String capacity = "2";
-      String screen_size = "14";
+      int capacity = 2;
+      int screen_size = 14;
       String color = "red";
 
       RequestAddObjectData data = new RequestAddObjectData(year, price, cpu_model, hard_disk_size, capacity,

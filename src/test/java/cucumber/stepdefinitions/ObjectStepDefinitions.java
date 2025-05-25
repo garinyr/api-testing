@@ -28,6 +28,8 @@ public class ObjectStepDefinitions {
     String name, email, password = "@dmin123";
     String objectName;
     Response lastResponse;
+    RequestAddObject requestAddBody;
+    RequestUpdateObject requestUpdateBody;
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Given("I have employee details with random email")
@@ -74,60 +76,59 @@ public class ObjectStepDefinitions {
 
     @When("I add a new object with specified attributes")
     public void addObject() throws Exception {
-        RequestAddObjectData data = new RequestAddObjectData("2019", "1849", "Intel Core i9", "1", "2", "14", "red");
-        RequestAddObject req = new RequestAddObject("Apple MacBook Pro 16", data);
+        RequestAddObjectData data = new RequestAddObjectData("2019", "1849", "Intel Core i9", "1", 2, 14, "red");
+        requestAddBody = new RequestAddObject("Apple MacBook Pro 16", data);
 
         lastResponse = RestAssured.given().baseUri("https://whitesmokehouse.com/webhook/api")
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + token)
-                .body(objectMapper.writeValueAsString(req)).post("/objects");
+                .body(objectMapper.writeValueAsString(requestAddBody)).post("/objects");
 
         List<ResponseListAddObject> list = objectMapper.readValue(
                 lastResponse.asString(), new TypeReference<List<ResponseListAddObject>>() {
                 });
         objectId = String.valueOf(list.get(0).getId());
-        // log
-        System.out.println("Object ID: " + objectId);
-
         Assert.assertEquals(lastResponse.statusCode(), 200);
     }
 
     @Then("the object should be added successfully")
-    public void verifyAddSuccess() {
+    public void verifyAddSuccess() throws JsonMappingException, JsonProcessingException {
         Assert.assertNotNull(objectId);
-    }
 
-    @And("I should be able to retrieve the object by ID")
-    public void getObjectById() throws Exception {
-        Response getResp = RestAssured.given().baseUri("https://whitesmokehouse.com/webhook/api")
+        Response response = RestAssured.given().baseUri("https://whitesmokehouse.com/webhook/api")
                 .header("Authorization", "Bearer " + token)
-                .queryParam("id", objectId).get("/objectslistId");
+                .queryParam("id", objectId)
+                .get("/objectslistId");
 
-        List<ResponseGetListObjectById> list = objectMapper.readValue(
-                getResp.asString(), new TypeReference<List<ResponseGetListObjectById>>() {
+        Assert.assertEquals(response.statusCode(), 200);
+
+        List<ResponseGetListObjectById> actualObject = objectMapper.readValue(
+                response.asString(),
+                new TypeReference<List<ResponseGetListObjectById>>() {
                 });
-        Assert.assertFalse(list.isEmpty());
-    }
+        ResponseGetListObjectById retrieved = actualObject.get(0);
 
-    @Given("I have an existing object ID")
-    public void existingObject() {
-        // log
-        System.out.println("Using existing object ID: " + objectId);
-        Assert.assertNotNull(objectId);
+        // Now assert each field
+        Assert.assertEquals(retrieved.getName(), requestAddBody.getName());
+        Assert.assertEquals(retrieved.getData().getYear(), requestAddBody.getData().getYear());
+        Assert.assertEquals(retrieved.getData().getPrice(), requestAddBody.getData().getPrice());
+        Assert.assertEquals(retrieved.getData().getCpu_model(), requestAddBody.getData().getCpu_model());
+        Assert.assertEquals(retrieved.getData().getHard_disk_size(), requestAddBody.getData().getHard_disk_size());
+        Assert.assertEquals(retrieved.getData().getCapacity(), requestAddBody.getData().getCapacity());
+        Assert.assertEquals(retrieved.getData().getScreen_size(), requestAddBody.getData().getScreen_size());
+        Assert.assertEquals(retrieved.getData().getColor(), requestAddBody.getData().getColor());
     }
 
     @When("I update the object with new attributes")
     public void updateObject() throws Exception {
-        objectName = "Apple MacBook Pro 22";
-
         RequestUpdateObjectData data = new RequestUpdateObjectData("2022", 2849, "M4 Pro", "2", "4", "16", "silver");
-        RequestUpdateObject req = new RequestUpdateObject(objectName, data);
+        requestUpdateBody = new RequestUpdateObject("Apple MacBook Pro 22", data);
 
         lastResponse = RestAssured.given()
                 .baseUri("https://whitesmokehouse.com/webhook/37777abe-a5ef-4570-a383-c99b5f5f7906/api")
                 .header("Authorization", "Bearer " + token)
                 .header("Content-Type", "application/json")
-                .body(objectMapper.writeValueAsString(req))
+                .body(objectMapper.writeValueAsString(requestUpdateBody))
                 .put("/objects/" + objectId);
 
         Assert.assertEquals(lastResponse.statusCode(), 200);
@@ -150,7 +151,7 @@ public class ObjectStepDefinitions {
 
         ResponseGetListObjectById retrieved = retrievedObjects.get(0);
         Assert.assertEquals(retrieved.getId(), Integer.parseInt(objectId), "Object ID does not match");
-        Assert.assertEquals(retrieved.getName(), objectName, "Retrieved name mismatch");
+        Assert.assertEquals(retrieved.getName(), requestUpdateBody.getName(), "Retrieved name mismatch");
     }
 
     @When("I delete the object")
