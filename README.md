@@ -19,4 +19,7 @@ git clone this repo
 cd api-testing
 
 # Run the test suite
-mvn clean test
+## run testng test
+mvn clean test -P testng-tests
+## run cucumber test
+mvn clean test -P cucumber-tests
