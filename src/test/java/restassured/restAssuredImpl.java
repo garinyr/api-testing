@@ -72,7 +72,8 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("email").equals(email) : "Email does not match";
         assert response.jsonPath().getString("full_name").equals(full_name) : "Full name does not match";
         assert response.jsonPath().getString("department").equals(department) : "Department does not match";
-        assert response.jsonPath().getString("phone_number").equals(phone_number) : "Phone number does not match";
+        assert response.jsonPath().getString("phone_number").equals(phone_number)
+                : "Phone number does not match";
     }
 
     @Test
@@ -121,11 +122,11 @@ public class restAssuredImpl {
 
         String name = "Apple MacBook Pro 16";
         String year = "2019";
-        String price = "1849.99";
+        String price = "1849";
         String cpu_model = "Intel Core i9";
-        String hard_disk_size = "1 TB";
-        String capacity = "2 cpu";
-        String screen_size = "14 Inch";
+        String hard_disk_size = "1";
+        String capacity = "2";
+        String screen_size = "14";
         String color = "red";
 
         Map<String, Object> data = new HashMap<>();
@@ -156,11 +157,13 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("[0].name").equals(name) : "Name does not match";
         assert response.jsonPath().getString("[0].data.year").equals(year) : "Year does not match";
         assert response.jsonPath().getString("[0].data.price").equals(price) : "Price does not match";
-        assert response.jsonPath().getString("[0].data.cpu_model").equals(cpu_model) : "CPU model does not match";
+        assert response.jsonPath().getString("[0].data.cpu_model").equals(cpu_model)
+                : "CPU model does not match";
         assert response.jsonPath().getString("[0].data.hard_disk_size").equals(hard_disk_size)
                 : "Hard disk size does not match";
         assert response.jsonPath().getString("[0].data.capacity").equals(capacity) : "Capacity does not match";
-        assert response.jsonPath().getString("[0].data.screen_size").equals(screen_size) : "Screen size does not match";
+        assert response.jsonPath().getString("[0].data.screen_size").equals(screen_size)
+                : "Screen size does not match";
         assert response.jsonPath().getString("[0].data.color").equals(color) : "Color does not match";
 
         objectId = response.jsonPath().getString("[0].id");
@@ -223,11 +226,11 @@ public class restAssuredImpl {
 
         String name = "Apple MacBook Pro 17";
         String year = "2019";
-        String price = "1849.99";
+        String price = "1849";
         String cpu_model = "Intel Core i9";
-        String hard_disk_size = "1 TB";
-        String capacity = "2 cpu";
-        String screen_size = "14 Inch";
+        String hard_disk_size = "1";
+        String capacity = "2";
+        String screen_size = "14";
         String color = "red";
 
         Map<String, Object> data = new HashMap<>();
@@ -258,11 +261,13 @@ public class restAssuredImpl {
         assert response.jsonPath().getString("[0].name").equals(name) : "Name does not match";
         assert response.jsonPath().getString("[0].data.year").equals(year) : "Year does not match";
         assert response.jsonPath().getString("[0].data.price").equals(price) : "Price does not match";
-        assert response.jsonPath().getString("[0].data['CPU model']").equals(cpu_model) : "CPU model does not match";
+        assert response.jsonPath().getString("[0].data['CPU model']").equals(cpu_model)
+                : "CPU model does not match";
         assert response.jsonPath().getString("[0].data['Hard disk size']").equals(hard_disk_size)
                 : "Hard disk size does not match";
         assert response.jsonPath().getString("[0].data.capacity").equals(capacity) : "Capacity does not match";
-        assert response.jsonPath().getString("[0].data.screen_size").equals(screen_size) : "Screen size does not match";
+        assert response.jsonPath().getString("[0].data.screen_size").equals(screen_size)
+                : "Screen size does not match";
         assert response.jsonPath().getString("[0].data.color").equals(color) : "Color does not match";
     }
 
