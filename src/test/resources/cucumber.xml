@@ -1,8 +1,14 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="CucumberTests">
-    <test name="API Tests with Cucumber">
-        <packages>
-            <package name="cucumber.runners" />
-        </packages>
+<suite name="BDD Suite" parallel="false" preserve-order="true">
+    <test name="Register Feature">
+        <classes>
+            <class name="cucumber.runners.RegisterRunner" />
+        </classes>
+    </test>
+
+    <test name="Object Operations Feature">
+        <classes>
+            <class name="cucumber.runners.ObjectRunner" />
+        </classes>
     </test>
 </suite>

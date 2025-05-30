@@ -1,16 +1,33 @@
-Feature: Object API Operations
+Feature: Object CRUD Operations
 
-  Scenario: Register new employee
-    Given I have employee details with random email
-    When I send a registration request
-    Then the employee should be successfully registered and able to login
+  Background:
+    Given I am already authenticated
 
-  Scenario: Add, update, and delete an object
-    Given I am authenticated
-    When I add a new object with specified attributes
+  @createObject
+  Scenario Outline: Add a new object with valid attributes
+    When I add a new object with:
+      | name        | <name>        |
+      | year        | <year>        |
+      | price       | <price>       |
+      | cpu_model   | <cpu_model>   |
+      | hdd_size    | <hdd_size>    |
+      | capacity    | <capacity>    |
+      | screen_size | <screen_size> |
+      | color       | <color>       |
     Then the object should be added successfully
+
+    Examples:
+      | name           | year | price | cpu_model     | hdd_size | capacity | screen_size | color  |
+      | MacBook Pro 16 | 2019 |  1849 | Intel Core i9 |        1 |        2 |          14 | red    |
+      | MacBook Air M2 | 2022 |  1399 | M2            |        2 |        1 |          13 | silver |
+
+  @updateObject
+  Scenario: Update the previously added object
     When I update the object with new attributes
     Then the object should be updated successfully
+
+  @deleteObject
+  Scenario: Delete the previously added object
     When I delete the object
     Then the object should be deleted successfully
     And retrieving it should return an empty response
