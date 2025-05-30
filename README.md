@@ -3,11 +3,12 @@
 This project demonstrates API testing using **RestAssured** and **TestNG**
 
 ## Technologies Used
-
 - Java 11
-- Maven
-- RestAssured
-- TestNG
+- Maven (dependency manager)
+- Cucumber (for BDD)
+- TestNG (test runner and reporting)
+- RestAssured (API requests)
+- Jackson (JSON mapper)
 
 ## How to Run
 
