@@ -1,6 +1,6 @@
 # API Testing with RestAssured & TestNG
 
-This project demonstrates API testing using **RestAssured** and **TestNG**
+This project demonstrates automated REST API testing using **RestAssured** ,**TestNG** and **Cucumber BDD**.
 
 ## Technologies Used
 - Java 11
@@ -9,22 +9,6 @@ This project demonstrates API testing using **RestAssured** and **TestNG**
 - TestNG (test runner and reporting)
 - RestAssured (API requests)
 - Jackson (JSON mapper)
-
-## How to Run
-
-```bash
-# Clone the repository
-git clone this repo
-
-# Navigate to the project folder
-cd api-testing
-
-# Run the test suite
-### how to run testng test
-mvn clean test -P testng-tests
-### how to run cucumber test
-mvn clean test -P cucumber-tests
-```
 
 ## Project Structure
 ```bash
@@ -78,3 +62,27 @@ mvn clean test -P cucumber-tests
                     auth.feature
                     object_operations.feature
                     register.feature
+```
+
+## How to Run
+```bash
+## Make sure you have:
+Java 11 installed
+Maven installed
+Git (for cloning the repo)
+
+# Clone the repository
+git clone <repository-url>
+cd api-testing
+
+# Run Test Suites
+✅ Run TestNG Tests
+mvn clean test -P testng-tests
+
+🎯 Run Cucumber BDD Tests
+mvn clean test -P cucumber-tests
+```
+
+# Test Reports
+- TestNG Reports : Located in target/surefire-reports/
+- Cucumber Reports : Generated via cucumber.xml and can be viewed in a browser after running Cucumber tests. Located in target/cucumber-reports
