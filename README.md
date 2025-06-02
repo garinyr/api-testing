@@ -12,56 +12,58 @@ This project demonstrates automated REST API testing using **RestAssured** ,**Te
 
 ## Project Structure
 ```bash
-+---src
-    +---main
-    |   +---java
-    |   |   \---com
-    |   |       \---afterofficetest
-    |   |           \---model
-    |   |               +---login
-    |   |               |       RequestLogin.java
-    |   |               |       ResponseLogin.java
-    |   |               +---object
-    |   |               |       RequestAddObject.java
-    |   |               |       RequestAddObjectData.java
-    |   |               |       RequestUpdateObject.java
-    |   |               |       RequestUpdateObjectData.java
-    |   |               |       ResponseDeleteObject.java
-    |   |               |       ResponseGetListObjectById.java
-    |   |               |       ResponseGetListObjectByIdData.java
-    |   |               |       ResponseListAddObject.java
-    |   |               |       ResponseListAddObjectData.java
-    |   |               |       ResponseListUpdateObject.java
-    |   |               |       ResponseListUpdateObjectData.java
-    |   |               \---register
-    |   |                       RequestRegister.java
-    |   |                       ResponseRegister.java
-    |   \---resources
-    \---test
-        +---java
-        |   +---context
-        |   |       ScenarioContext.java
-        |   +---cucumber
-        |   |   +---hooks
-        |   |   |       Hooks.java
-        |   |   +---runners
-        |   |   |       ObjectRunner.java
-        |   |   |       RegisterRunner.java
-        |   |   \---stepdefinitions
-        |   |           AuthStepDefinitions.java
-        |   |           ObjectStepDefinitions.java
-        |   |           RegisterStepDefinitions.java
-        |   +---e2e
-        |   |       RestAssuredE2ETest.java
-        |   \---restassured
-        |           restAssuredImpl.java
-        \---resources
-            |   cucumber.xml
-            |   testng.xml
-            \---features
-                    auth.feature
-                    object_operations.feature
-                    register.feature
+src
+├── main
+│   └── java
+│       └── com
+│           └── afterofficetest
+│               └── model
+│                   ├── login
+│                   │   ├── RequestLogin.java
+│                   │   └── ResponseLogin.java
+│                   ├── object
+│                   │   ├── RequestAddObject.java
+│                   │   ├── RequestAddObjectData.java
+│                   │   ├── RequestUpdateObject.java
+│                   │   ├── RequestUpdateObjectData.java
+│                   │   ├── ResponseDeleteObject.java
+│                   │   ├── ResponseGetListObjectById.java
+│                   │   ├── ResponseGetListObjectByIdData.java
+│                   │   ├── ResponseListAddObject.java
+│                   │   ├── ResponseListAddObjectData.java
+│                   │   ├── ResponseListUpdateObject.java
+│                   │   └── ResponseListUpdateObjectData.java
+│                   └── register
+│                       ├── RequestRegister.java
+│                       └── ResponseRegister.java
+└── test
+    ├── java
+    │   ├── context
+    │   │   └── ScenarioContext.java
+    │   ├── cucumber
+    │   │   ├── hooks
+    │   │   │   └── Hooks.java
+    │   │   ├── runners
+    │   │   │   ├── ObjectRunner.java
+    │   │   │   └── RegisterRunner.java
+    │   │   └── stepdefinitions
+    │   │       ├── AuthStepDefinitions.java
+    │   │       ├── ObjectStepDefinitions.java
+    │   │       └── RegisterStepDefinitions.java
+    │   ├── e2e
+    │   │   └── RestAssuredE2ETest.java
+    │   ├── restassured
+    │   │   └── restAssuredImpl.java
+    │   └── utils
+    │       └── ConfigReader.java
+    └── resources
+        ├── config.properties
+        ├── cucumber.xml
+        ├── testng.xml
+        └── features
+            ├── auth.feature
+            ├── object_operations.feature
+            └── register.feature
 ```
 
 ## How to Run
