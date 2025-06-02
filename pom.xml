@@ -61,6 +61,12 @@
         <!-- Profile to run regular TestNG tests -->
         <profile>
             <id>testng-tests</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>stg</env> <!-- default environment -->
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -71,6 +77,9 @@
                             <suiteXmlFiles>
                                 <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                             </suiteXmlFiles>
+                            <systemPropertyVariables>
+                                <env>${env}</env>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -80,6 +89,9 @@
         <!-- Profile to run Cucumber BDD tests -->
         <profile>
             <id>cucumber-tests</id>
+            <properties>
+                <env>stg</env>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -90,10 +102,14 @@
                             <suiteXmlFiles>
                                 <suiteXmlFile>src/test/resources/cucumber.xml</suiteXmlFile>
                             </suiteXmlFiles>
+                            <systemPropertyVariables>
+                                <env>${env}</env>
+                            </systemPropertyVariables>
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
     </profiles>
+
 </project>

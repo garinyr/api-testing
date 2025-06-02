@@ -11,16 +11,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import static utils.ConfigReader.get;
 
 public class restAssuredImpl {
     String token, objectId;
+    String baseUrl = get("base.url");
 
     @BeforeSuite
     public void setup() throws JsonProcessingException {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
-
-        String email = "garinyr@gmail.com";
-        String password = "@dmin123";
+        RestAssured.baseURI =  baseUrl + "/api";
+        String email = get("email.valid");
+        String password = get("password.valid");
 
         Map<String, Object> request = new HashMap<>();
         request.put("email", email);
@@ -40,7 +41,7 @@ public class restAssuredImpl {
 
     @Test
     public void testRegister() throws JsonProcessingException {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+        RestAssured.baseURI = baseUrl + "/api";
 
         // create random number for email
         String randomNumber = String.valueOf((int) (Math.random() * 1000));
@@ -78,7 +79,7 @@ public class restAssuredImpl {
 
     @Test
     public void testLogin() throws JsonProcessingException {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+        RestAssured.baseURI = baseUrl + "/api";
 
         String email = "garinyr@gmail.com";
         String password = "@dmin123";
@@ -103,7 +104,7 @@ public class restAssuredImpl {
 
     @Test
     public void testGetAllDepartments() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+        RestAssured.baseURI = baseUrl + "/api";
 
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -118,7 +119,7 @@ public class restAssuredImpl {
 
     @Test
     public void testAddObject() throws JsonProcessingException {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+        RestAssured.baseURI = baseUrl + "/api";
 
         String name = "Apple MacBook Pro 16";
         String year = "2019";
@@ -171,7 +172,7 @@ public class restAssuredImpl {
 
     @Test
     public void testGetListAllObjects() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+        RestAssured.baseURI = baseUrl + "/api";
 
         Response response = RestAssured.given()
                 .header("Content-Type", "application/json")
@@ -185,7 +186,7 @@ public class restAssuredImpl {
 
     @Test
     public void testGetObjectById() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/api";
+        RestAssured.baseURI = baseUrl + "/api";
         String objectId2 = "95";
 
         Response response = RestAssured.given()
@@ -205,7 +206,7 @@ public class restAssuredImpl {
 
     @Test
     public void testSingleObject() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/8749129e-f5f7-4ae6-9b03-93be7252443c/api";
+        RestAssured.baseURI = baseUrl + "/8749129e-f5f7-4ae6-9b03-93be7252443c/api";
 
         String objectId = "94";
         Response response = RestAssured.given()
@@ -222,7 +223,7 @@ public class restAssuredImpl {
 
     @Test(dependsOnMethods = "testAddObject")
     public void testUpdateObject() throws JsonProcessingException {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/37777abe-a5ef-4570-a383-c99b5f5f7906/api/";
+        RestAssured.baseURI = baseUrl + "/37777abe-a5ef-4570-a383-c99b5f5f7906/api";
 
         String name = "Apple MacBook Pro 17";
         String year = "2019";
@@ -273,7 +274,7 @@ public class restAssuredImpl {
 
     @Test(dependsOnMethods = "testUpdateObject")
     public void testPartiallyUpdateObject() throws JsonProcessingException {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/39a0f904-b0f2-4428-80a3-391cea5d7d04/api/";
+        RestAssured.baseURI = baseUrl + "/39a0f904-b0f2-4428-80a3-391cea5d7d04/api";
 
         String name = "Apple MacBook Pro X 22";
         String year = "2022";
@@ -302,7 +303,7 @@ public class restAssuredImpl {
 
     @Test(dependsOnMethods = "testPartiallyUpdateObject")
     public void testDeleteObject() {
-        RestAssured.baseURI = "https://whitesmokehouse.com/webhook/d79a30ed-1066-48b6-83f5-556120afc46f/api/";
+        RestAssured.baseURI = baseUrl + "/d79a30ed-1066-48b6-83f5-556120afc46f/api";
 
         String expectedMsg = "Object with id = " + objectId + ", has been deleted.";
 

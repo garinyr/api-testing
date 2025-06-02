@@ -77,10 +77,12 @@ cd api-testing
 
 # Run Test Suites
 ✅ Run TestNG Tests
-mvn clean test -P testng-tests
+mvn clean test -Ptestng-tests -Denv=stg
+mvn clean test -Ptestng-tests -Denv=prod
 
 🎯 Run Cucumber BDD Tests
-mvn clean test -P cucumber-tests
+mvn clean test -Pcucumber-tests -Denv=stg
+mvn clean test -Pcucumber-tests -Denv=prod
 ```
 
 # Test Reports
