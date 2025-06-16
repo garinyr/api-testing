@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Selenium Web Suite" parallel="false" preserve-order="true">
+    <test name="Login Tests Feature">
+        <classes>
+            <class name="seleniumweb.selenium_scenario.Login" />
+        </classes>
+    </test>
+</suite>

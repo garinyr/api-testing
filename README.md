@@ -54,11 +54,15 @@ src
     │   │   └── RestAssuredE2ETest.java
     │   ├── restassured
     │   │   └── restAssuredImpl.java
+    │   ├── seleniumweb
+    │   │   └── selenium_scenario
+    │   │       └── Login.java
     │   └── utils
     │       └── ConfigReader.java
     └── resources
         ├── config.properties
         ├── cucumber.xml
+        ├── selenium_web.xml
         ├── testng.xml
         └── features
             ├── auth.feature
@@ -80,11 +84,12 @@ cd api-testing
 # Run Test Suites
 ✅ Run TestNG Tests
 mvn clean test -Ptestng-tests -Denv=stg
-mvn clean test -Ptestng-tests -Denv=prod
 
 🎯 Run Cucumber BDD Tests
 mvn clean test -Pcucumber-tests -Denv=stg
-mvn clean test -Pcucumber-tests -Denv=prod
+
+🎯 Run Selenium web Tests
+mvn clean test -Pselenium-tests -Denv=stg
 ```
 
 # Test Reports
