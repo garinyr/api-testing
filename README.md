@@ -90,6 +90,9 @@ mvn clean test -Pcucumber-tests -Denv=stg
 
 🎯 Run Selenium web Tests
 mvn clean test -Pselenium-tests -Denv=stg
+
+🎯 Run Selenium testng + Cucumber BDD + POM
+mvn clean test -Pselenium-pom-cucumber -Denv=stg
 ```
 
 # Test Reports

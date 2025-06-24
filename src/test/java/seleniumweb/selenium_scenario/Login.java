@@ -138,7 +138,7 @@ public class Login {
          String productName = "Sauce Labs Backpack";
          By ItemsLocator = By.className("inventory_item");
          By productNameLocator = By
-               .xpath("//div[@class='inventory_item']/div[@class='inventory_item_description']//a/div");
+               .xpath("//div[@class='inventory_item']//div[@class='inventory_item_description']//a/div");
          By buttonAddCartLocator = By.xpath(".//div[@class='pricebar']/button");
          By cartBadgeLocator = By.xpath("//span[@class='shopping_cart_badge']");
 
