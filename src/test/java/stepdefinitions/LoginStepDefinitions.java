@@ -31,10 +31,10 @@ public class LoginStepDefinitions {
         if (loginPage.isErrorMessageDisplayed()) {
             System.out.println("Error message: " + loginPage.getErrorMessage());
             System.out.println("expected message: " + expected);
-            Assert.assertTrue(loginPage.getErrorMessage().startsWith(expected));
+            Assert.assertTrue(loginPage.getErrorMessage().startsWith(expected), "Error message did not match");
         } else {
             Assert.assertTrue(homePage.isLoaded());
-            Assert.assertEquals(homePage.getTitle(), expected);
+            Assert.assertEquals(homePage.getTitle(), expected, "Title name did not match");
         }
     }
 }
